@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
    <children>
       <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="197.0" prefWidth="574.0" />
       <Button fx:id="resetButton" layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#handle" text="Reset" />
@@ -22,8 +22,14 @@
       <Button fx:id="removeTimeButton" layoutX="365.0" layoutY="397.0" mnemonicParsing="false" onAction="#handle" text="Remove Time to Selected Task" />
       <TextField fx:id="timeTextField" layoutX="394.0" layoutY="284.0" prefHeight="31.0" prefWidth="138.0" promptText="Time" />
       <Line endX="-100.0" endY="200.0" layoutX="448.0" layoutY="232.0" startX="-100.0" />
-      <Button fx:id="exitButton" layoutX="500.0" layoutY="468.0" mnemonicParsing="false" onAction="#handle" text="Save" />
-      <Label layoutX="24.0" layoutY="473.0" text="Total preferred time:" />
-      <Label fx:id="totalTimeLabel" layoutX="171.0" layoutY="473.0" />
+      <Button fx:id="exitButton" layoutX="509.0" layoutY="515.0" mnemonicParsing="false" onAction="#handle" text="Save" />
+      <Label layoutX="33.0" layoutY="520.0" text="Total preferred time:" />
+      <Label fx:id="totalPreferredTimeLabel" layoutX="180.0" layoutY="520.0" />
+      <Button fx:id="startTimerButton" layoutX="14.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="Start Timer" />
+      <Label layoutX="115.0" layoutY="468.0" text="Start time:" />
+      <Button fx:id="endTimerButton" layoutX="319.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
+      <Label layoutX="414.0" layoutY="468.0" text="Total time:" />
+      <Label fx:id="startTimeLabel" layoutX="192.0" layoutY="468.0" />
+      <Label fx:id="totalTimerLabel" layoutX="492.0" layoutY="468.0" />
    </children>
 </Pane>

@@ -1,7 +1,11 @@
 package maxTask.controller;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
+import java.util.Timer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +47,12 @@ public class MainPageController {
 	@FXML Button removeTimeButton;
 	@FXML TextField timeTextField;
 	
+	//timer
+	@FXML Button startTimerButton;
+	@FXML Button endTimerButton;
+	@FXML Label startTimeLabel;
+	@FXML Label totalTimerLabel;
+	
 	//actually save button
 	@FXML Button exitButton;
 	
@@ -50,7 +60,7 @@ public class MainPageController {
 	
     ObservableList<GridPane> tasks_observable = FXCollections.observableArrayList();
     
-    @FXML Label totalTimeLabel;
+    @FXML Label totalPreferredTimeLabel;
 	
 	/**
 	 * Initializes the front end UI. This method is automatically called
@@ -129,6 +139,14 @@ public class MainPageController {
 		else if(b==removeTimeButton){
 			removeTime();
 		}
+		//start timer
+		else if(b==startTimerButton){
+			startTimer();
+		}
+		//end timer
+		else if(b==endTimerButton){
+			endTimer();
+		}
 		
 	}
 	
@@ -154,9 +172,11 @@ public class MainPageController {
 		taskListView.refresh();
 		
 		//update total
-		totalTimeLabel.setText(totalTime+"");
+		totalPreferredTimeLabel.setText(totalTime+"");
 	}
 	
+	
+	//button methods
 	public void resetTimes(){
 		for(Task t: tasks){
 			t.setSpentTime(0);
@@ -249,6 +269,29 @@ public class MainPageController {
 		tasks.add(temp);
 		updateList();
 		printTasks();
+	}
+	
+	
+	//TIMER
+	LocalTime startTime;
+	
+	public void startTimer(){
+		startTime=LocalTime.now();
+		System.out.println("start time: "+startTime.toString());
+		startTimeLabel.setText(startTime.toString());
+		totalTimerLabel.setText("");
+	}
+	
+	public void endTimer(){
+		if(startTime!=null){
+			LocalTime endTime=LocalTime.now();
+			System.out.println("end time: "+endTime.toString());
+			long numMinutes =startTime.until(endTime, ChronoUnit.MINUTES);
+			System.out.println("minutes: " + numMinutes);
+			totalTimerLabel.setText(""+numMinutes+" minutes");
+			startTime=null;
+			startTimeLabel.setText("");
+		}
 	}
 		
 }

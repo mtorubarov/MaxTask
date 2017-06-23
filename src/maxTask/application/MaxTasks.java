@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 public class MaxTasks extends Application {
 	
 	public static Stage primaryStage ; 
-	
+		
 	@Override
 	public void start(Stage primaryStage) {
 	    MaxTasks.primaryStage = primaryStage;
