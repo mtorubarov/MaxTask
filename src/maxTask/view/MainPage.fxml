@@ -4,10 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="654.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
    <children>
       <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="197.0" prefWidth="574.0" />
       <Button fx:id="resetButton" layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#handle" text="Reset" />
@@ -25,11 +27,19 @@
       <Button fx:id="exitButton" layoutX="509.0" layoutY="515.0" mnemonicParsing="false" onAction="#handle" text="Save" />
       <Label layoutX="33.0" layoutY="520.0" text="Total preferred time:" />
       <Label fx:id="totalPreferredTimeLabel" layoutX="180.0" layoutY="520.0" />
-      <Button fx:id="startTimerButton" layoutX="14.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="Start Timer" />
+      <Button fx:id="startTimerButton" layoutX="14.0" layoutY="463.0" mnemonicParsing="false" text="Start Timer" />
       <Label layoutX="115.0" layoutY="468.0" text="Start time:" />
-      <Button fx:id="endTimerButton" layoutX="319.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
+      <Button fx:id="endTimerButton" layoutX="319.0" layoutY="463.0" mnemonicParsing="false" text="End Timer" />
       <Label layoutX="414.0" layoutY="468.0" text="Total time:" />
       <Label fx:id="startTimeLabel" layoutX="192.0" layoutY="468.0" />
       <Label fx:id="totalTimerLabel" layoutX="492.0" layoutY="468.0" />
+      <Label layoutX="269.0" layoutY="520.0" text="Total spent time:" />
+      <Label fx:id="totalSpentTimeLabel" layoutX="397.0" layoutY="520.0" />
+      <GridPane fx:id="timeGraphicPane" layoutX="21.0" layoutY="546.0" prefHeight="90.0" prefWidth="345.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+      </GridPane>
    </children>
 </Pane>

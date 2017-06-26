@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import maxTask.model.Task;
@@ -61,7 +62,9 @@ public class MainPageController {
     ObservableList<GridPane> tasks_observable = FXCollections.observableArrayList();
     
     @FXML Label totalPreferredTimeLabel;
-	
+    @FXML Label totalSpentTimeLabel;
+	@FXML GridPane timeGraphicPane;
+    
 	/**
 	 * Initializes the front end UI. This method is automatically called
 	 * after the fxml file has been loaded.
@@ -161,18 +164,35 @@ public class MainPageController {
 	}
 	
 	public void updateList(){
-		int totalTime =0;
+		int totalPreferredTime =0;
+		int totalSpentTime=0;
 		
 		tasks_observable.clear();
 		for(Task t: tasks){
 			GridPane pane = getPaneForTask(t);
 			tasks_observable.add(pane);
-			totalTime+=t.getPreferredTime();
+			totalPreferredTime+=t.getPreferredTime();
+			totalSpentTime+=t.getSpentTime();
 		}
 		taskListView.refresh();
 		
 		//update total
-		totalPreferredTimeLabel.setText(totalTime+"");
+		totalPreferredTimeLabel.setText(totalPreferredTime+"");
+		totalSpentTimeLabel.setText(totalSpentTime+"");
+		
+		
+		//make bar
+		Rectangle outer = new Rectangle(400,10);
+		Rectangle inner;
+		if(totalPreferredTime==0){
+			inner = new Rectangle(0,10);
+		}else{
+			inner = new Rectangle(((double)totalSpentTime/(double)totalPreferredTime)*400,10);
+		}
+		inner.setFill(Color.RED);
+		
+		timeGraphicPane.add(outer, 0, 0);
+		timeGraphicPane.add(inner, 0, 0);
 	}
 	
 	
