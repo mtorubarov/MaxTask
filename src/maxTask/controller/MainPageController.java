@@ -181,6 +181,14 @@ public class MainPageController {
 		totalSpentTimeLabel.setText(totalSpentTime+"");
 		
 		
+		//delete old stuff
+		System.out.println("the height is: "+timeGraphicPane.getChildren().size());
+		if (timeGraphicPane.getChildren().size()>2){
+			timeGraphicPane.getChildren().remove(2);
+			timeGraphicPane.getChildren().remove(1);
+			timeGraphicPane.getChildren().remove(0);
+		}
+		
 		//make bar
 		Rectangle outer = new Rectangle(400,10);
 		Rectangle inner;
@@ -193,6 +201,16 @@ public class MainPageController {
 		
 		timeGraphicPane.add(outer, 0, 0);
 		timeGraphicPane.add(inner, 0, 0);
+		
+		
+		//add a goal?
+		
+		
+		
+		Label goalLabel = new Label(""+ (int)(((double)totalSpentTime/(double)totalPreferredTime)*100) + "%");
+		goalLabel.setPrefWidth(10000);
+		timeGraphicPane.add(goalLabel, 0, 1);
+		
 	}
 	
 	
