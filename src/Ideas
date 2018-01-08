@@ -1,0 +1,9 @@
+//button that switches  the view to new window, after we serialize this one, to window that allows us to have checklist of things
+	//list of tasks. once checked off, we ignore them
+	//do we want priority
+	//for each task we want: soft deadline, hard deadline
+	
+	
+	//later want a calendar
+	//can go into day and put tasks there...
+Must place the per day thing for example, or say specificially that you do not want to do it on that day

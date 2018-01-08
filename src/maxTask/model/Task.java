@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task implements java.io.Serializable{
+	int id;
 	private String name;
 	private int preferredTime;
 	private int spentTime;
@@ -25,20 +26,18 @@ public class Task implements java.io.Serializable{
 	 */
 	public static final String storeDir = "data";
 	
-	//1 arg constructor
-	public Task(String name){
-		this.name=name;
-		preferredTime=0;
-		spentTime=0;
-	}
-	
 	//2 arg constructor
-	public Task(String name, int preferredTime){
+	public Task(String name, int preferredTime, int id){
+		this.id=id;
 		this.name=name;
 		this.preferredTime=preferredTime;
 		spentTime=0;
 	}
 	
+	//1 arg constructor
+	public Task(String name, int id){
+		this(name,0, id);
+	}
 	
 	//time changes
 	public void addSpentTime(int time){

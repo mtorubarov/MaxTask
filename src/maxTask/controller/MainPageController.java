@@ -1,6 +1,7 @@
 package maxTask.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -11,7 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -21,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import maxTask.model.Task;
+import maxTask.model.TaskView;
+import maxTask.util.ManageFrontend;
 
 
 
@@ -31,17 +36,18 @@ public class MainPageController {
 	//task view
 	@FXML ListView<GridPane> taskListView;
 	
+	//date control
+	@FXML Label CurrentDateLabel;
+	@FXML Button goBackDateButton;
+	@FXML Button goForwardDateButton;
+	
 	//reset
 	@FXML Button resetButton;
 	
 	//change tasks
 	@FXML Button addTaskButton;
-	@FXML TextField addTaskTextField;
 	@FXML Button deleteTaskButton;
-	@FXML Button renameTaskButton;
-	@FXML TextField renameTaskTextField;
-	@FXML Button retimeTaskButton;
-	@FXML TextField retimeTaskTextField;
+	@FXML Button editTaskButton;
 	
 	//time control
 	@FXML Button addTimeButton;
@@ -61,10 +67,19 @@ public class MainPageController {
 	
     ObservableList<GridPane> tasks_observable = FXCollections.observableArrayList();
     
+    
+    //figure out the formula of how much accomplished
     @FXML Label totalPreferredTimeLabel;
     @FXML Label totalSpentTimeLabel;
 	@FXML GridPane timeGraphicPane;
     
+	//button that switches  the view to new window, after we serialize this one, to window that allows us to have checklist of things
+
+	@FXML Button switchViews;
+	
+	//date we are currently looking at
+	int currentDate = 0;
+	
 	/**
 	 * Initializes the front end UI. This method is automatically called
 	 * after the fxml file has been loaded.
@@ -72,10 +87,18 @@ public class MainPageController {
 	 * @throws ClassNotFoundException 
 	 */
 	@FXML private void initialize() throws ClassNotFoundException, IOException{
+		//set the current date to today's date
+		int[] todayDate = TaskView.getTodayDate();
+		int dayOfYear = TaskView.getDateNumber(todayDate[0], todayDate[1], todayDate[2]);
+		currentDate=dayOfYear;
+		CurrentDateLabel.setText(todayDate[1] + "/"+ todayDate[2]+"/" + todayDate[0]+"("+dayOfYear+")");
+		
+		/*
 		tasks=Task.FetchTasks(tasks);
 		taskListView.setItems(tasks_observable);
 		//for each of the Photo instances of current album, make its corresponding observable list
 		updateList();
+		*/
 	}
 	
 	private GridPane getPaneForTask(Task t){
@@ -110,50 +133,82 @@ public class MainPageController {
 	//This method will handle the creating, renaming, opening and deleting albums features 
 	public void handle(ActionEvent e) throws Exception{
 		Button b = (Button) e.getSource() ; //The button press which led to the calling of this method 
+		if(b== goBackDateButton){
+			setCurrentDateBack();
+		}else if(b==goForwardDateButton){
+			setCurrentDateForward();
+		}
 		//exit: just sserialize and nothing else. (basically save button)
-		if(b == exitButton){
-			Task.SerializeTask(tasks);
+		else if(b == exitButton){
+			//Task.SerializeTask(tasks);
 		}
 		//add task
 		else if(b==addTaskButton){
-			addTask();
+			//addTask();
 		}
 		//reset tasks
 		else if(b==resetButton){
-			resetTimes();
+			//resetTimes();
 		}
 		//delete selected task
 		else if(b==deleteTaskButton){
-			deleteTask();
+			//deleteTask();
 		}
-		//rename selected task
-		else if(b==renameTaskButton){
-			renameTask();
-		}
-		//retime selected task
-		else if(b==retimeTaskButton){
-			retimeTask();
+		//edit selected task
+		else if(b==editTaskButton){
+			//editTask(); used to be retime and renameTsk
 		}
 		//add time
 		else if(b==addTimeButton){
-			addTime();
+			//addTime();
 		}
 		//remove time
 		else if(b==removeTimeButton){
-			removeTime();
+			//removeTime();
 		}
 		//start timer
 		else if(b==startTimerButton){
-			startTimer();
+			//startTimer();
 		}
 		//end timer
 		else if(b==endTimerButton){
-			endTimer();
+			//endTimer();
+		}
+		//switch view to the checklist
+		else if(b==switchViews){
+			//switchToChecklist(e);
 		}
 		
 	}
 	
 	//helper methods
+	
+	//dates helper mehtods:
+	public void setCurrentDateBack(){
+		//TODO: make sure can't go below 0
+		//TODO: make separate method to display
+		currentDate--;
+		int[] todayDate = TaskView.getTodayDate();
+		//figure out the month, year, etc of this currentDate
+		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate[2], currentDate);
+		CurrentDateLabel.setText(newCurrentDate.getMonth() + "/"+ newCurrentDate.getDayOfMonth()+"/" + newCurrentDate.getYear()+"("+currentDate+")");
+	}
+	
+	
+	public void setCurrentDateForward(){
+		currentDate++;
+		int[] todayDate = TaskView.getTodayDate();
+		//figure out the month, year, etc of this currentDate
+		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate[2], currentDate);
+		CurrentDateLabel.setText(newCurrentDate.getMonth() + "/"+ newCurrentDate.getDayOfMonth()+"/" + newCurrentDate.getYear()+"("+currentDate+")");
+	
+	}
+	
+	
+	
+	
+	
+	
 	public void printTasks(){
 		System.out.println("TASKS---------------");
 		int i =0;
@@ -214,6 +269,7 @@ public class MainPageController {
 	}
 	
 	
+	
 	//button methods
 	public void resetTimes(){
 		for(Task t: tasks){
@@ -238,6 +294,7 @@ public class MainPageController {
 		
 	}
 
+	/*
 	public void renameTask(){
 		//get selected task
 		int index=taskListView.getSelectionModel().getSelectedIndex();
@@ -267,7 +324,7 @@ public class MainPageController {
 		}
 		updateList();
 		printTasks();
-	}
+	}*/
 	
 	public void addTime(){
 		//get selected task
@@ -278,8 +335,10 @@ public class MainPageController {
 		}else{
 			temp=tasks.get(index);
 			String timeString=timeTextField.getText();
-			int timeInt = Integer.parseInt(timeString);
-			temp.addSpentTime(timeInt);
+			if(!timeString.equals("")){
+				int timeInt = Integer.parseInt(timeString);
+				temp.addSpentTime(timeInt);
+			}
 		}
 		updateList();
 		printTasks();
@@ -300,14 +359,14 @@ public class MainPageController {
 		updateList();
 		printTasks();
 	}
-	
+	/*
 	public void addTask(){
 		String name=addTaskTextField.getText();
 		Task temp=new Task(name);
 		tasks.add(temp);
 		updateList();
 		printTasks();
-	}
+	}*/
 	
 	
 	//TIMER
@@ -331,5 +390,12 @@ public class MainPageController {
 			startTimeLabel.setText("");
 		}
 	}
-		
+
+	
+	//switch to checklist view
+	public void switchToChecklist(ActionEvent e) throws IOException{
+		System.out.println("We pressed button to switch");
+		Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
+		ManageFrontend.DisplayScreen("ChecklistPage.fxml", e , "Checklist Page", p);
+	}
 }

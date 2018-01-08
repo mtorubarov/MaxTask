@@ -23,7 +23,7 @@ public class MaxTasks extends Application {
 			Pane root = (Pane) FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Log in");
+			primaryStage.setTitle("Every day Timed Tasks");
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			

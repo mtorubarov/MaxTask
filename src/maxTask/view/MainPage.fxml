@@ -9,37 +9,39 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="654.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="696.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.MainPageController">
    <children>
-      <ListView fx:id="taskListView" layoutX="14.0" layoutY="14.0" prefHeight="197.0" prefWidth="574.0" />
-      <Button fx:id="resetButton" layoutX="14.0" layoutY="253.0" mnemonicParsing="false" onAction="#handle" text="Reset" />
-      <Button fx:id="addTaskButton" layoutX="90.0" layoutY="253.0" mnemonicParsing="false" onAction="#handle" text="Add Task" />
-      <TextField fx:id="addTaskTextField" layoutX="183.0" layoutY="253.0" prefHeight="31.0" prefWidth="138.0" promptText="Enter Task Name" />
-      <Button fx:id="deleteTaskButton" layoutX="10.0" layoutY="301.0" mnemonicParsing="false" onAction="#handle" text="Delete Selected Task" />
-      <Button fx:id="renameTaskButton" layoutX="9.0" layoutY="347.0" mnemonicParsing="false" onAction="#handle" text="Rename Selected Task" />
-      <Button fx:id="retimeTaskButton" layoutX="12.0" layoutY="397.0" mnemonicParsing="false" onAction="#handle" text="Retime Selected Task" />
-      <TextField fx:id="renameTaskTextField" layoutX="183.0" layoutY="347.0" prefHeight="31.0" prefWidth="138.0" promptText="Enter new Name" />
-      <TextField fx:id="retimeTaskTextField" layoutX="183.0" layoutY="397.0" prefHeight="31.0" prefWidth="138.0" promptText="Enter new Time" />
-      <Button fx:id="addTimeButton" layoutX="365.0" layoutY="347.0" mnemonicParsing="false" onAction="#handle" text="Add Time to Selected Task" />
-      <Button fx:id="removeTimeButton" layoutX="365.0" layoutY="397.0" mnemonicParsing="false" onAction="#handle" text="Remove Time to Selected Task" />
-      <TextField fx:id="timeTextField" layoutX="394.0" layoutY="284.0" prefHeight="31.0" prefWidth="138.0" promptText="Time" />
-      <Line endX="-100.0" endY="200.0" layoutX="448.0" layoutY="232.0" startX="-100.0" />
-      <Button fx:id="exitButton" layoutX="509.0" layoutY="515.0" mnemonicParsing="false" onAction="#handle" text="Save" />
-      <Label layoutX="245.0" layoutY="520.0" text="Total preferred time:" />
-      <Label fx:id="totalPreferredTimeLabel" layoutX="392.0" layoutY="520.0" />
-      <Button fx:id="startTimerButton" layoutX="14.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="Start Timer" />
-      <Label layoutX="115.0" layoutY="468.0" text="Start time:" />
-      <Button fx:id="endTimerButton" layoutX="319.0" layoutY="463.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
-      <Label layoutX="414.0" layoutY="468.0" text="Total time:" />
-      <Label fx:id="startTimeLabel" layoutX="192.0" layoutY="468.0" />
-      <Label fx:id="totalTimerLabel" layoutX="492.0" layoutY="468.0" />
-      <Label layoutX="14.0" layoutY="520.0" text="Total spent time:" />
-      <Label fx:id="totalSpentTimeLabel" layoutX="142.0" layoutY="520.0" />
-      <GridPane fx:id="timeGraphicPane" layoutX="21.0" layoutY="546.0" prefHeight="90.0" prefWidth="345.0">
+      <ListView fx:id="taskListView" layoutX="14.0" layoutY="74.0" prefHeight="197.0" prefWidth="739.0" />
+      <Button fx:id="resetButton" layoutX="401.0" layoutY="291.0" mnemonicParsing="false" onAction="#handle" text="Reset all Times" />
+      <Button fx:id="addTaskButton" layoutX="66.0" layoutY="306.0" mnemonicParsing="false" onAction="#handle" text="Add Task" />
+      <Button fx:id="deleteTaskButton" layoutX="28.0" layoutY="354.0" mnemonicParsing="false" onAction="#handle" text="Delete Selected Task" />
+      <Button fx:id="editTaskButton" layoutX="37.0" layoutY="407.0" mnemonicParsing="false" onAction="#handle" text="Edit Selected Task" />
+      <Button fx:id="addTimeButton" layoutX="515.0" layoutY="394.0" mnemonicParsing="false" onAction="#handle" text="Add Time to Selected Task" />
+      <Button fx:id="removeTimeButton" layoutX="515.0" layoutY="452.0" mnemonicParsing="false" onAction="#handle" text="Remove Time to Selected Task" />
+      <TextField fx:id="timeTextField" layoutX="544.0" layoutY="342.0" prefHeight="31.0" prefWidth="138.0" promptText="Time" />
+      <Button fx:id="exitButton" layoutX="683.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="SAVE" />
+      <Label layoutX="244.0" layoutY="525.0" text="Total preferred time:" />
+      <Label fx:id="totalPreferredTimeLabel" layoutX="391.0" layoutY="525.0" />
+      <Button fx:id="startTimerButton" layoutX="265.0" layoutY="342.0" mnemonicParsing="false" onAction="#handle" text="Start Timer" />
+      <Label layoutX="252.0" layoutY="388.0" text="Start time:" />
+      <Button fx:id="endTimerButton" layoutX="268.0" layoutY="421.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
+      <Label layoutX="251.0" layoutY="472.0" text="Total time:" />
+      <Label fx:id="startTimeLabel" layoutX="333.0" layoutY="390.0" />
+      <Label fx:id="totalTimerLabel" layoutX="332.0" layoutY="472.0" />
+      <Label layoutX="13.0" layoutY="525.0" text="Total spent time:" />
+      <Label fx:id="totalSpentTimeLabel" layoutX="141.0" layoutY="525.0" />
+      <GridPane fx:id="timeGraphicPane" layoutX="20.0" layoutY="551.0" prefHeight="41.0" prefWidth="345.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
       </GridPane>
+      <Button fx:id="switchViews" layoutX="182.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="Switch to Today's, not today's checklist" />
+      <Line endX="-100.0" endY="200.0" layoutX="323.0" layoutY="288.0" startX="-100.0" />
+      <Line endX="630.0" layoutX="113.0" layoutY="510.0" startX="-100.0" strokeMiterLimit="1000.0" />
+      <Line endX="630.0" layoutX="114.0" layoutY="620.0" startX="-100.0" strokeMiterLimit="1000.0" />
+      <Label fx:id="CurrentDateLabel" layoutX="349.0" layoutY="31.0" text="Date" />
+      <Button fx:id="goBackDateButton" layoutX="252.0" layoutY="26.0" mnemonicParsing="false" onAction="#handle" text="&lt;-" />
+      <Button fx:id="goForwardDateButton" layoutX="459.0" layoutY="26.0" mnemonicParsing="false" onAction="#handle" text="-&gt;" />
    </children>
 </Pane>
