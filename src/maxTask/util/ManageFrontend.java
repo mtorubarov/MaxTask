@@ -37,13 +37,13 @@ public class ManageFrontend {
 	public static void DisplayScreen(String ss, ActionEvent e, String title, Parent p) throws IOException {
 		System.out.println("we are displaying: "+ ss);
 		Scene s = new Scene(p);
-		//s.getStylesheets().add(PhotoAlbum.class.getResource("application.css").toExternalForm());;
 		Stage st = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		st.setScene(s);
 		st.setTitle(title);
 		st.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			public void handle(WindowEvent we) {
-				if (ss.equalsIgnoreCase("ChecklistPage.fxml")) {
+				//TODO: handle serialization
+				/*if (ss.equalsIgnoreCase("ChecklistPage.fxml")) {
 					//Admin admin = Admin.getInstance("admin");
 					/*
 					try {
@@ -51,8 +51,8 @@ public class ManageFrontend {
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
-				}
+					}
+				}*/
 			}
 		});
 		st.setResizable(false);

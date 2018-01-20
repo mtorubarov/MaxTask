@@ -19,15 +19,14 @@ public class MaxTasks extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 	    MaxTasks.primaryStage = primaryStage;
-		try {
+		try{
 			Pane root = (Pane) FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Every day Timed Tasks");
 			primaryStage.setResizable(false);
-			primaryStage.show();
-			
-		} catch (Exception e) {
+			primaryStage.show();	
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

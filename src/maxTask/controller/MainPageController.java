@@ -27,7 +27,7 @@ import maxTask.model.Task;
 import maxTask.model.TaskView;
 import maxTask.util.ManageFrontend;
 
-
+//TODO: update the lists after we switch dates (also make sure that add task for the current day)
 
 /**
  * @author Maxim Torubarov 
@@ -59,11 +59,13 @@ public class MainPageController {
 	@FXML Button endTimerButton;
 	@FXML Label startTimeLabel;
 	@FXML Label totalTimerLabel;
+	@FXML Button addTimerButton;
+	int timerNumMinutes;
 	
 	//actually save button
 	@FXML Button exitButton;
 	
-	List<Task> tasks;
+	public static TaskView taskView;
 	
     ObservableList<GridPane> tasks_observable = FXCollections.observableArrayList();
     
@@ -78,7 +80,9 @@ public class MainPageController {
 	@FXML Button switchViews;
 	
 	//date we are currently looking at
-	int currentDate = 0;
+	//used for adding tasks controller and edit task controllers
+	static int currentDate = 0;
+	static int currentSelected = 0;
 	
 	/**
 	 * Initializes the front end UI. This method is automatically called
@@ -92,6 +96,16 @@ public class MainPageController {
 		int dayOfYear = TaskView.getDateNumber(todayDate[0], todayDate[1], todayDate[2]);
 		currentDate=dayOfYear;
 		CurrentDateLabel.setText(todayDate[1] + "/"+ todayDate[2]+"/" + todayDate[0]+"("+dayOfYear+")");
+		
+		taskView = TaskView.FetchTasks(taskView);
+		//taskView= new TaskView();
+		
+		//set the tasks for today's date
+		int[] todayDay=TaskView.getTodayDate();
+		//tasks=taskView.getTasks(TaskView.getDateNumber(todayDay[0],todayDay[1],todayDay[2]));
+		
+		taskListView.setItems(tasks_observable);
+		updateList();
 		
 		/*
 		tasks=Task.FetchTasks(tasks);
@@ -140,43 +154,48 @@ public class MainPageController {
 		}
 		//exit: just sserialize and nothing else. (basically save button)
 		else if(b == exitButton){
-			//Task.SerializeTask(tasks);
+			TaskView.SerializeTask(taskView);
 		}
 		//add task
 		else if(b==addTaskButton){
-			//addTask();
+			TaskView.SerializeTask(taskView);
+			switchToAddTask(e);
 		}
 		//reset tasks
 		else if(b==resetButton){
-			//resetTimes();
+			resetTimes();
 		}
 		//delete selected task
 		else if(b==deleteTaskButton){
-			//deleteTask();
+			TaskView.SerializeTask(taskView);
+			deleteTask(e);
 		}
 		//edit selected task
 		else if(b==editTaskButton){
+			TaskView.SerializeTask(taskView);
 			//editTask(); used to be retime and renameTsk
 		}
 		//add time
 		else if(b==addTimeButton){
-			//addTime();
+			addTime(false);
 		}
 		//remove time
 		else if(b==removeTimeButton){
-			//removeTime();
+			removeTime();
 		}
 		//start timer
 		else if(b==startTimerButton){
-			//startTimer();
+			startTimer();
 		}
 		//end timer
 		else if(b==endTimerButton){
-			//endTimer();
+			endTimer();
 		}
 		//switch view to the checklist
 		else if(b==switchViews){
-			//switchToChecklist(e);
+			//TODO:switchToChecklist(e);
+		}else if(b==addTimerButton){
+			addTime(true);
 		}
 		
 	}
@@ -184,24 +203,38 @@ public class MainPageController {
 	//helper methods
 	
 	//dates helper mehtods:
-	public void setCurrentDateBack(){
-		//TODO: make sure can't go below 0
-		//TODO: make separate method to display
-		currentDate--;
+	public void updateDate(){
 		int[] todayDate = TaskView.getTodayDate();
 		//figure out the month, year, etc of this currentDate
 		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate[2], currentDate);
-		CurrentDateLabel.setText(newCurrentDate.getMonth() + "/"+ newCurrentDate.getDayOfMonth()+"/" + newCurrentDate.getYear()+"("+currentDate+")");
+		CurrentDateLabel.setText(newCurrentDate.getMonth().getValue() + "/"+ newCurrentDate.getDayOfMonth()+"/" + newCurrentDate.getYear()+"("+currentDate+")");
+		//set the tasks for today's date
+		
+		//tasks=taskView.getTasks(currentDate);
+		
+		
+		taskListView.setItems(tasks_observable);
+		updateList();
 	}
+	
+	public void setCurrentDateBack(){
+		//TODO: make separate method to display
+		currentDate--;
+		if(currentDate<0){
+			currentDate=0;
+		}
+		updateDate();
+	}
+	
 	
 	
 	public void setCurrentDateForward(){
 		currentDate++;
-		int[] todayDate = TaskView.getTodayDate();
-		//figure out the month, year, etc of this currentDate
-		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate[2], currentDate);
-		CurrentDateLabel.setText(newCurrentDate.getMonth() + "/"+ newCurrentDate.getDayOfMonth()+"/" + newCurrentDate.getYear()+"("+currentDate+")");
-	
+		//TODO: handle leap years here
+		if(currentDate>366){
+			currentDate=0;
+		}
+		updateDate();
 	}
 	
 	
@@ -212,6 +245,7 @@ public class MainPageController {
 	public void printTasks(){
 		System.out.println("TASKS---------------");
 		int i =0;
+		List<Task> tasks = taskView.getTasks(currentDate);
 		for(Task t: tasks){
 			System.out.println(i+". name: "+t.getName()+"| preferred time: "+t.getPreferredTime()+"| spent time: "+t.getSpentTime());
 			i++;
@@ -219,6 +253,11 @@ public class MainPageController {
 	}
 	
 	public void updateList(){
+		List<Task> tasks = taskView.getTasks(currentDate);
+		if(tasks==null){
+			return;
+		}
+		
 		int totalPreferredTime =0;
 		int totalSpentTime=0;
 		
@@ -237,7 +276,7 @@ public class MainPageController {
 		
 		
 		//delete old stuff
-		System.out.println("the height is: "+timeGraphicPane.getChildren().size());
+		//System.out.println("the height is: "+timeGraphicPane.getChildren().size());
 		if (timeGraphicPane.getChildren().size()>2){
 			timeGraphicPane.getChildren().remove(2);
 			timeGraphicPane.getChildren().remove(1);
@@ -272,6 +311,7 @@ public class MainPageController {
 	
 	//button methods
 	public void resetTimes(){
+		List<Task> tasks = taskView.getTasks(currentDate);
 		for(Task t: tasks){
 			t.setSpentTime(0);
 		}
@@ -279,18 +319,23 @@ public class MainPageController {
 		printTasks();
 	}
 
-	public void deleteTask(){
+	public void deleteTask(ActionEvent e) throws Exception{
+		System.out.println("we are deleting task");
 		//get selected task
 		int index=taskListView.getSelectionModel().getSelectedIndex();
+		//taskView.printAllTasks();
 		Task temp;
 		if(index<0){
 			System.out.println("Nothing selected");
 		}else{
+			List<Task> tasks = taskView.getTasks(currentDate);
 			temp=tasks.get(index);
-			tasks.remove(index);
+			currentSelected=temp.getID();
+			switchToDeleteTask(e);
+			//tasks.remove(index);
 		}
-		updateList();
-		printTasks();
+		//updateList();
+		//printTasks();
 		
 	}
 
@@ -326,24 +371,30 @@ public class MainPageController {
 		printTasks();
 	}*/
 	
-	public void addTime(){
+	public void addTime(boolean fromTimer){
 		//get selected task
 		int index=taskListView.getSelectionModel().getSelectedIndex();
 		Task temp;
 		if(index<0){
 			System.out.println("Nothing selected");
 		}else{
+			List<Task> tasks = taskView.getTasks(currentDate);
 			temp=tasks.get(index);
-			String timeString=timeTextField.getText();
-			if(!timeString.equals("")){
-				int timeInt = Integer.parseInt(timeString);
-				temp.addSpentTime(timeInt);
+			int timeInt=0;
+			if(fromTimer){
+				timeInt=timerNumMinutes;
+			}else{
+				String timeString=timeTextField.getText();
+				if(!timeString.equals("")){
+					timeInt = Integer.parseInt(timeString);
+				}
 			}
+			temp.addSpentTime(timeInt);
 		}
 		updateList();
 		printTasks();
 	}
-
+	
 	public void removeTime(){
 		//get selected task
 		int index=taskListView.getSelectionModel().getSelectedIndex();
@@ -351,10 +402,13 @@ public class MainPageController {
 		if(index<0){
 			System.out.println("Nothing selected");
 		}else{
+			List<Task> tasks = taskView.getTasks(currentDate);
 			temp=tasks.get(index);
 			String timeString=timeTextField.getText();
-			int timeInt = Integer.parseInt(timeString);
-			temp.subtractSpentTime(timeInt);
+			if(!timeString.equals("")){
+				int timeInt = Integer.parseInt(timeString);
+				temp.subtractSpentTime(timeInt);
+			}
 		}
 		updateList();
 		printTasks();
@@ -377,6 +431,7 @@ public class MainPageController {
 		System.out.println("start time: "+startTime.toString());
 		startTimeLabel.setText(startTime.toString());
 		totalTimerLabel.setText("");
+		timerNumMinutes=0;
 	}
 	
 	public void endTimer(){
@@ -388,6 +443,7 @@ public class MainPageController {
 			totalTimerLabel.setText(""+numMinutes+" minutes");
 			startTime=null;
 			startTimeLabel.setText("");
+			timerNumMinutes= (int)numMinutes;
 		}
 	}
 
@@ -397,5 +453,19 @@ public class MainPageController {
 		System.out.println("We pressed button to switch");
 		Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
 		ManageFrontend.DisplayScreen("ChecklistPage.fxml", e , "Checklist Page", p);
+	}
+	
+	//switch to addtask view to add tasks
+	public void switchToAddTask(ActionEvent e) throws IOException{
+		System.out.println("We pressed button to add task");
+		Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/AddTask.fxml"));
+		ManageFrontend.DisplayScreen("AddTask.fxml", e , "Adding a Task", p);
+	}
+	
+	//switch to deletetask view to delete tasks
+	public void switchToDeleteTask(ActionEvent e) throws IOException{
+		System.out.println("We pressed button to delete task");
+		Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/DeleteSelectedTask.fxml"));
+		ManageFrontend.DisplayScreen("DeleteSelectedTask.fxml", e , "Deleting a Task", p);
 	}
 }

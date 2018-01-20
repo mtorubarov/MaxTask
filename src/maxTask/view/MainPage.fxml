@@ -24,7 +24,7 @@
       <Label fx:id="totalPreferredTimeLabel" layoutX="391.0" layoutY="525.0" />
       <Button fx:id="startTimerButton" layoutX="265.0" layoutY="342.0" mnemonicParsing="false" onAction="#handle" text="Start Timer" />
       <Label layoutX="252.0" layoutY="388.0" text="Start time:" />
-      <Button fx:id="endTimerButton" layoutX="268.0" layoutY="421.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
+      <Button fx:id="endTimerButton" layoutX="242.0" layoutY="423.0" mnemonicParsing="false" onAction="#handle" text="End Timer" />
       <Label layoutX="251.0" layoutY="472.0" text="Total time:" />
       <Label fx:id="startTimeLabel" layoutX="333.0" layoutY="390.0" />
       <Label fx:id="totalTimerLabel" layoutX="332.0" layoutY="472.0" />
@@ -43,5 +43,6 @@
       <Label fx:id="CurrentDateLabel" layoutX="349.0" layoutY="31.0" text="Date" />
       <Button fx:id="goBackDateButton" layoutX="252.0" layoutY="26.0" mnemonicParsing="false" onAction="#handle" text="&lt;-" />
       <Button fx:id="goForwardDateButton" layoutX="459.0" layoutY="26.0" mnemonicParsing="false" onAction="#handle" text="-&gt;" />
+      <Button fx:id="addTimerButton" layoutX="336.0" layoutY="423.0" mnemonicParsing="false" onAction="#handle" text="Add to Selected Task" />
    </children>
 </Pane>

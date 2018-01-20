@@ -11,20 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task implements java.io.Serializable{
-	int id;
+	private int id;
 	private String name;
 	private int preferredTime;
 	private int spentTime;
 	
-	/**
-	 * Default serialVersionUID  
-	 */
-	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * directory to store the app's data 
-	 */
-	public static final String storeDir = "data";
 	
 	//2 arg constructor
 	public Task(String name, int preferredTime, int id){
@@ -55,7 +47,14 @@ public class Task implements java.io.Serializable{
 	
 	
 	//getterz and setters
+	public int getID(){
+		return id;
+	}
 	
+	public void setID(int id){
+		this.id=id;
+	}
+
 	public String getName(){
 		return name;
 	}
@@ -80,44 +79,6 @@ public class Task implements java.io.Serializable{
 		spentTime=time;
 	}
 	
-	//serialization
-	/**
-	 * This method must be called before quitting the application from any where so that when the app is 
-	 * run again the data from the previous session was saved and is seen under admin when we Deseraialize 
-	 * admin in next session   
-	 * @param Admin instance "o" 
-	 */
-	public static void SerializeTask (List<Task> o) throws IOException{
-		System.out.println("We are serializing tasks");
-		//For "Tasks" we will have a file under "data" directory named "task" 
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + "tasks"));
-		oos.writeObject(o);
-		oos.close();
-	}
 	
-	/**de-serializes the admin
-	 * @return admin
-	 * @throws IOException input/output exception
-	 * @throws ClassNotFoundException class not found exception
-	 */
-	public static List<Task> FetchTasks(List<Task> tasks)throws IOException, ClassNotFoundException {
-		System.out.println("We are fetching tasks");
-		ObjectInputStream ois ;
-		//this is the file from where we will read the stored data
-		try{
-			ois = new ObjectInputStream(new FileInputStream("data/tasks"));
-		}catch(FileNotFoundException e ){
-			File f = new File("data/tasks") ;
-			f.createNewFile() ; 
-			Task.SerializeTask(tasks);
-			ois = new ObjectInputStream(new FileInputStream("data/tasks"));
-		}
-		List<Task> newTasks = (List<Task>)ois.readObject();
-		ois.close();
-		if(newTasks==null){
-			newTasks=new ArrayList<Task>();
-		}
-		return newTasks; 
-	}
 	
 }
