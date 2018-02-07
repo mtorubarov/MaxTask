@@ -185,6 +185,7 @@ public class TaskView implements java.io.Serializable{
 		}
 		
 		for(int i =0 ; i<otherDays.length;i++){
+			System.out.println("other day "+i+" is: "+otherDays[i]);
 			days.add(otherDays[i]);
 		}
 		
@@ -218,9 +219,6 @@ public class TaskView implements java.io.Serializable{
 	public void deleteTaskFromAll(int id){
 		//first we find it in allTasks
 		//lets print allTasks
-		//printAllTasks();
-		
-		System.out.println("We are deleting all tasks of id: "+id);
 		
 		//we will with the id, get all the dates from the allTasks, then delete the allTasks entry
 		//int[] dates = allTasks.get(id).dates;
@@ -230,7 +228,6 @@ public class TaskView implements java.io.Serializable{
 			for(int t=0; t<tasks.size();t++){
 				Task task = tasks.get(t);
 				if(task.getID()==id){
-					System.out.println("MATCH: "+t);
 					tasksToBeRemoved.add(task);
 				}
 			}
@@ -310,7 +307,7 @@ public class TaskView implements java.io.Serializable{
 	 * @param Admin instance "o" 
 	 */
 	public static void SerializeTask (TaskView o) throws IOException{
-		System.out.println("We are serializing tasks");
+		//System.out.println("We are serializing tasks");
 		//For "Tasks" we will have a file under "data" directory named "task" 
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + "taskView3"));
 		oos.writeObject(o);
@@ -323,7 +320,7 @@ public class TaskView implements java.io.Serializable{
 	 * @throws ClassNotFoundException class not found exception
 	 */
 	public static TaskView FetchTasks(TaskView tasks)throws IOException, ClassNotFoundException {
-		System.out.println("We are fetching tasks");
+		//System.out.println("We are fetching tasks");
 		ObjectInputStream ois ;
 		//this is the file from where we will read the stored data
 		try{

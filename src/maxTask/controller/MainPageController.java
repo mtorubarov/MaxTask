@@ -131,7 +131,7 @@ public class MainPageController {
         return pane;
 	}
 		
-	//This method will handle the creating, renaming, opening and deleting albums features 
+	//This method will handle all the buttons
 	public void handle(ActionEvent e) throws Exception{
 		Button b = (Button) e.getSource() ; //The button press which led to the calling of this method 
 		if(b== goBackDateButton){				//changes the date backwards

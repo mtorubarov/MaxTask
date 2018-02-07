@@ -38,6 +38,7 @@ public class MaxTasks extends Application {
 		System.out.println("We are setting the current date: "+dayOfYear);
 		MaxTasks.currentDate=dayOfYear;
 		
+		
 		//Do everything else...
 	    MaxTasks.primaryStage = primaryStage;
 		try{

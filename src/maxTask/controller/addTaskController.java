@@ -2,16 +2,23 @@ package maxTask.controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.MonthDay;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 import maxTask.application.MaxTasks;
 import maxTask.model.TaskView;
 import maxTask.util.ManageFrontend;
@@ -41,6 +48,10 @@ public class addTaskController {
      
     TaskView taskView;
 	
+    public boolean buttonClicked = false;
+    public boolean hiddenCalendar = true;
+    public List<LocalDate> otherDates = new ArrayList<LocalDate>();
+    
 	/**
 	 * Initializes the front end UI. This method is automatically called
 	 * after the fxml file has been loaded.
@@ -48,6 +59,87 @@ public class addTaskController {
 	 * @throws ClassNotFoundException 
 	 */
 	@FXML private void initialize() throws ClassNotFoundException, IOException{
+		System.out.println("We are initializing the add");
+		
+		otherDaysDatePicker.setDayCellFactory(null);
+		otherDaysDatePicker.setOnMouseClicked(null);
+		otherDaysDatePicker.setOnMousePressed(null);
+		otherDaysDatePicker.setOnMouseReleased(null);
+		otherDaysDatePicker.setOnMouseDragEntered(null);
+		otherDaysDatePicker.setOnMouseDragExited(null);	
+		//cancelButton.setOnMousePressed(null);
+		
+		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (otherDates.contains(item))
+                        {
+                            //setTooltip(new Tooltip("Beware the Ides of March!"));
+                            setStyle("-fx-background-color: #ff4444;");
+                        } else {
+                            setTooltip(null);
+                            setStyle(null);
+                        }
+                    }
+                };
+            }
+        };
+        otherDaysDatePicker.setDayCellFactory(dayCellFactory);
+		
+		//otherDaysDatePicker.
+		
+		
+		otherDaysDatePicker.setOnAction(new EventHandler() {
+		     public void handle(Event t) {
+		         LocalDate date = otherDaysDatePicker.getValue();
+		         otherDates.add(date);
+		         //make it show up on the calendar if click it...
+		         
+		         
+		         //System.err.println("Selected date: " + date);
+		         //add the date and make it show up...
+		     }
+		 });
+		
+		otherDaysDatePicker.setOnMouseClicked(new EventHandler<Event>() {
+	        @Override
+	        public void handle(Event event) {
+	        	System.out.println("HEY");
+	        	if(hiddenCalendar==false){
+		        	if(otherDaysDatePicker.isShowing()){
+		        		System.out.println("This is showing??");
+						buttonClicked = true;			//if showing calendar, clicked button, we clicked button
+						otherDaysDatePicker.hide();		//
+						buttonClicked = false;			//
+						hiddenCalendar=true;
+					}
+	        	}else{
+	        		hiddenCalendar=false;
+	        	}
+	        }
+	    });
+		
+		/*
+		cancelButton.setOnAction(event->{
+			if(otherDaysDatePicker.isShowing()){
+				buttonClicked = true;			//if showing calendar, clicked button, we clicked button
+				otherDaysDatePicker.hide();		//
+				buttonClicked = false;			//
+			}
+		});*/
+		
+		otherDaysDatePicker.setOnHidden(event->{
+			if(!buttonClicked){					//if didn't click button, show
+				otherDaysDatePicker.show();
+			}
+		});
+		
+		
+	
+		
 		taskView = TaskView.FetchTasks(taskView);
 	}
 	
@@ -106,7 +198,13 @@ public class addTaskController {
 				numberMonthsRepeats=Integer.parseInt(repeatMonthTextField.getText());
 			}
 			
-			int[] otherDays={0};
+			int[] otherDays= new int[otherDates.size()];
+			int index = 0;
+			for(LocalDate d: otherDates){
+				otherDays[index] = d.getDayOfYear();
+				index++;
+			}
+		
 			
 			LocalDate dayEndsLocalDate=dayEndsDatePicker.getValue();
 			int dayEnds;
