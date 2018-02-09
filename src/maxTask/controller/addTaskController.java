@@ -59,16 +59,9 @@ public class addTaskController {
 	 * @throws ClassNotFoundException 
 	 */
 	@FXML private void initialize() throws ClassNotFoundException, IOException{
-		System.out.println("We are initializing the add");
 		
-		otherDaysDatePicker.setDayCellFactory(null);
-		otherDaysDatePicker.setOnMouseClicked(null);
-		otherDaysDatePicker.setOnMousePressed(null);
-		otherDaysDatePicker.setOnMouseReleased(null);
-		otherDaysDatePicker.setOnMouseDragEntered(null);
-		otherDaysDatePicker.setOnMouseDragExited(null);	
-		//cancelButton.setOnMousePressed(null);
 		
+		//set the cells of the other dates date picker to be what is in the otherDates list
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
             public DateCell call(final DatePicker datePicker) {
                 return new DateCell() {
@@ -89,25 +82,28 @@ public class addTaskController {
         };
         otherDaysDatePicker.setDayCellFactory(dayCellFactory);
 		
-		//otherDaysDatePicker.
-		
-		
-		otherDaysDatePicker.setOnAction(new EventHandler() {
-		     public void handle(Event t) {
+        //adds the date to our overall list
+		otherDaysDatePicker.setOnAction(new EventHandler<ActionEvent>() {
+		     public void handle(ActionEvent t) {
+		    	 System.out.println("HEY");
 		         LocalDate date = otherDaysDatePicker.getValue();
-		         otherDates.add(date);
-		         //make it show up on the calendar if click it...
+		        
+		         if(date!=null){						//because set the value to null... in the end when everything closes, make sure not to add the null
+			         if(otherDates.contains(date)){
+			        	 otherDates.remove(date);
+			         }else{
+			        	 otherDates.add(date);
+			         }
+		         }
 		         
-		         
-		         //System.err.println("Selected date: " + date);
-		         //add the date and make it show up...
+		         otherDaysDatePicker.setValue(null);
 		     }
 		 });
 		
+		//sets the date picker's on mouse clicked on close calendar
 		otherDaysDatePicker.setOnMouseClicked(new EventHandler<Event>() {
 	        @Override
 	        public void handle(Event event) {
-	        	System.out.println("HEY");
 	        	if(hiddenCalendar==false){
 		        	if(otherDaysDatePicker.isShowing()){
 		        		System.out.println("This is showing??");
@@ -122,24 +118,14 @@ public class addTaskController {
 	        }
 	    });
 		
-		/*
-		cancelButton.setOnAction(event->{
-			if(otherDaysDatePicker.isShowing()){
-				buttonClicked = true;			//if showing calendar, clicked button, we clicked button
-				otherDaysDatePicker.hide();		//
-				buttonClicked = false;			//
-			}
-		});*/
-		
+		//makes it so that when we hide the other date picker which happens automatically, we don't if the button isn't clicked
 		otherDaysDatePicker.setOnHidden(event->{
 			if(!buttonClicked){					//if didn't click button, show
 				otherDaysDatePicker.show();
 			}
 		});
 		
-		
-	
-		
+		//deserialize taskView
 		taskView = TaskView.FetchTasks(taskView);
 	}
 	
@@ -148,12 +134,18 @@ public class addTaskController {
 	public void handle(ActionEvent e) throws Exception{
 		Button b = (Button) e.getSource() ; //The button press which led to the calling of this method
 		if(b == cancelButton){
+			buttonClicked=true;						//hide the other days date picker to not produce any errors
+			otherDaysDatePicker.hide();	
+			
 			//just switch back to main page
 			Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
 			ManageFrontend.DisplayScreen("MainPage.fxml", e , "Main Page", p);
 		}
 		//add task
 		else if(b==addTaskButton){
+			buttonClicked=true;				//hide the other days date picker to not produce any errors
+			otherDaysDatePicker.hide();
+			
 			String name = nameTextField.getText();
 			int preferredTime=0;
 			if(!timeTextField.getText().equals("")){
@@ -201,8 +193,14 @@ public class addTaskController {
 			int[] otherDays= new int[otherDates.size()];
 			int index = 0;
 			for(LocalDate d: otherDates){
-				otherDays[index] = d.getDayOfYear();
-				index++;
+				if(otherDays==null){
+					System.out.println("otherDays is null!!");
+				}
+				if(d!=null){
+					System.out.println("d");
+					otherDays[index] = d.getDayOfYear();
+					index++;
+				}
 			}
 		
 			

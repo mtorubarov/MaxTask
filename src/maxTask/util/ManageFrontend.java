@@ -35,7 +35,7 @@ public class ManageFrontend {
 	 */
 	
 	public static void DisplayScreen(String ss, ActionEvent e, String title, Parent p) throws IOException {
-		System.out.println("we are displaying: "+ ss);
+		//System.out.println("we are displaying: "+ ss);
 		Scene s = new Scene(p);
 		Stage st = (Stage) ((Node) e.getSource()).getScene().getWindow();
 		st.setScene(s);
