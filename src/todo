@@ -13,3 +13,7 @@ handle leap year
 write asumptions for the input
 
 when end timer, make start timer not go to 0
+
+display the current date when edditing, adding tasks, etc. as well as current task
+
+make the text box for name in add task bigger

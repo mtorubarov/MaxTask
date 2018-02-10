@@ -15,7 +15,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import maxTask.application.MaxTasks;
+import maxTask.model.Task;
 import maxTask.model.TaskView;
+import maxTask.model.TaskViewDate;
 import maxTask.model.TaskViewTask;
 import maxTask.util.ManageFrontend;
 
@@ -63,6 +65,8 @@ public class editTaskController {
 		
 		//first find the currently selected task
 		TaskViewTask task = taskView.allTasks.get(MaxTasks.currentSelected);
+		//TaskViewDate currentDateTasks = taskView.allDates[MaxTasks.currentDate];
+		Task currentDateTask = taskView.getTaskFromDate(MaxTasks.currentDate,MaxTasks.currentSelected);	//could be null if it doesn't exist
 		
 		//we first set all the guys to their proper values
 		nameTextField.setText(task.name);
@@ -108,6 +112,19 @@ public class editTaskController {
 		repeatDayTextField.setText(""+task.numberDaysRepeats);
 		repeatWeekTextField.setText(""+task.numberWeeksRepeats);
 		repeatMonthTextField.setText(""+task.numberMonthsRepeats);
+		
+		
+		//display always the current
+		timeTextField.setText(""+currentDateTask.getPreferredTime());
+		
+		
+		
+		
+		//TODO: can edit just this one, all or all following including this one
+		
+		
+		
+		
 		
 		
 		//preferred time may be different between different tasks.. so if change that, change either for all, for one, etc.
@@ -195,7 +212,6 @@ public class editTaskController {
 			System.out.println("We pressed button to add task and will now switch");
 			Parent p = FXMLLoader.load(getClass().getResource("/maxTask/view/MainPage.fxml"));
 			ManageFrontend.DisplayScreen("MainPage.fxml", e , "Added a Task", p);
-			//addTask();
 		}
 		
 		

@@ -21,7 +21,7 @@ public class MaxTasks extends Application {
 	
 	//date we are currently looking at
 	public static int currentDate = 0;
-	//task that is currently selected
+	//task id that is currently selected
 	public static int currentSelected = 0;
 	//timer
 	public static LocalTime startTime;

@@ -283,6 +283,17 @@ public class TaskView implements java.io.Serializable{
 	}
 
 	
+	//------------------------------DELETING TASKS METHODS------------------------------------------------
+	public Task getTaskFromDate(int date, int id){
+		List<Task> tasks = allDates[date].tasks;
+		for (Task t : tasks){
+			if(t.getID()==id){
+				return t;
+			}
+		}
+		return null;
+	}
+	
 	//------------------------------HELPER METHODS--------------------------------------------------------
 	
 	//get the tasks for a specific day
