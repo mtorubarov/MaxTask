@@ -9,27 +9,30 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="696.0" prefWidth="772.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.editTaskController">
    <children>
-      <Button fx:id="addTaskButton" layoutX="37.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="Add Task" />
-      <TextField fx:id="nameTextField" layoutX="37.0" layoutY="37.0" prefHeight="31.0" prefWidth="138.0" promptText="Name" />
+      <Button fx:id="thisAndFollowingTasksButton" layoutX="37.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="This and following" />
+      <TextField fx:id="nameTextField" layoutX="40.0" layoutY="133.0" prefHeight="31.0" prefWidth="480.0" promptText="Name" />
       <Button fx:id="cancelButton" layoutX="683.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="Cancel" />
-      <TextField fx:id="timeTextField" layoutX="37.0" layoutY="88.0" prefHeight="31.0" prefWidth="138.0" promptText="Preferred Time" />
-      <CheckBox fx:id="mondayCheck" layoutX="44.0" layoutY="146.0" mnemonicParsing="false" text="M" />
-      <CheckBox fx:id="tuesdayCheck" layoutX="155.0" layoutY="146.0" mnemonicParsing="false" text="T" />
-      <CheckBox fx:id="wednesdayCheck" layoutX="263.0" layoutY="146.0" mnemonicParsing="false" text="W" />
-      <CheckBox fx:id="thursdayCheck" layoutX="358.0" layoutY="146.0" mnemonicParsing="false" text="T" />
-      <CheckBox fx:id="fridayCheck" layoutX="454.0" layoutY="146.0" mnemonicParsing="false" text="F" />
-      <CheckBox fx:id="saturdayCheck" layoutX="548.0" layoutY="146.0" mnemonicParsing="false" text="S" />
-      <CheckBox fx:id="sundayCheck" layoutX="653.0" layoutY="146.0" mnemonicParsing="false" text="S" />
-      <TextField fx:id="repeatDayTextField" layoutX="132.0" layoutY="183.0" prefHeight="31.0" prefWidth="81.0" />
-      <DatePicker fx:id="otherDaysDatePicker" layoutX="37.0" layoutY="339.0" promptText="other days" />
-      <Label layoutX="34.0" layoutY="188.0" text="Repeat every" />
-      <DatePicker fx:id="dayEndsDatePicker" layoutX="37.0" layoutY="389.0" promptText="day ends" />
-      <Label layoutX="241.0" layoutY="188.0" text="Day" />
-      <TextField fx:id="repeatWeekTextField" layoutX="137.0" layoutY="214.0" prefHeight="31.0" prefWidth="81.0" />
-      <Label layoutX="39.0" layoutY="219.0" text="Repeat every" />
-      <Label layoutX="246.0" layoutY="219.0" text="Week" />
-      <TextField fx:id="repeatMonthTextField" layoutX="137.0" layoutY="245.0" prefHeight="31.0" prefWidth="81.0" />
-      <Label layoutX="39.0" layoutY="250.0" text="Repeat every" />
-      <Label layoutX="246.0" layoutY="250.0" text="Month" />
+      <TextField fx:id="timeTextField" layoutX="40.0" layoutY="184.0" prefHeight="31.0" prefWidth="138.0" promptText="Preferred Time" />
+      <CheckBox fx:id="mondayCheck" layoutX="47.0" layoutY="242.0" mnemonicParsing="false" text="M" />
+      <CheckBox fx:id="tuesdayCheck" layoutX="158.0" layoutY="242.0" mnemonicParsing="false" text="T" />
+      <CheckBox fx:id="wednesdayCheck" layoutX="266.0" layoutY="242.0" mnemonicParsing="false" text="W" />
+      <CheckBox fx:id="thursdayCheck" layoutX="361.0" layoutY="242.0" mnemonicParsing="false" text="T" />
+      <CheckBox fx:id="fridayCheck" layoutX="457.0" layoutY="242.0" mnemonicParsing="false" text="F" />
+      <CheckBox fx:id="saturdayCheck" layoutX="551.0" layoutY="242.0" mnemonicParsing="false" text="S" />
+      <CheckBox fx:id="sundayCheck" layoutX="656.0" layoutY="242.0" mnemonicParsing="false" text="S" />
+      <TextField fx:id="repeatDayTextField" layoutX="135.0" layoutY="279.0" prefHeight="31.0" prefWidth="81.0" />
+      <DatePicker fx:id="otherDaysDatePicker" layoutX="40.0" layoutY="435.0" promptText="other days" />
+      <Label layoutX="37.0" layoutY="284.0" text="Repeat every" />
+      <DatePicker fx:id="dayEndsDatePicker" layoutX="40.0" layoutY="485.0" promptText="day ends" />
+      <Label layoutX="244.0" layoutY="284.0" text="Day" />
+      <TextField fx:id="repeatWeekTextField" layoutX="140.0" layoutY="310.0" prefHeight="31.0" prefWidth="81.0" />
+      <Label layoutX="42.0" layoutY="315.0" text="Repeat every" />
+      <Label layoutX="249.0" layoutY="315.0" text="Week" />
+      <TextField fx:id="repeatMonthTextField" layoutX="140.0" layoutY="341.0" prefHeight="31.0" prefWidth="81.0" />
+      <Label layoutX="42.0" layoutY="346.0" text="Repeat every" />
+      <Label layoutX="249.0" layoutY="346.0" text="Month" />
+      <Button fx:id="thisTaskButton" layoutX="180.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="This task" />
+      <Button fx:id="allTasksButton" layoutX="263.0" layoutY="644.0" mnemonicParsing="false" onAction="#handle" text="All tasks" />
+      <Label fx:id="currentDateLabel" layoutX="42.0" layoutY="39.0" text="Current Date" />
    </children>
 </Pane>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="472.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="maxTask.controller.deleteTaskController">
    <children>
       <Button fx:id="cancelButton" layoutX="267.0" layoutY="232.0" mnemonicParsing="false" onAction="#handle" text="Cancel" />
-      <Button fx:id="ThisAndFollowingButton" layoutX="55.0" layoutY="88.0" mnemonicParsing="false" onAction="#handle" text="This and following tasks" />
-      <Button fx:id="ThisButton" layoutX="235.0" layoutY="88.0" mnemonicParsing="false" onAction="#handle" text="This task" />
-      <Button fx:id="AllButton" layoutX="312.0" layoutY="88.0" mnemonicParsing="false" onAction="#handle" text="All Tasks" />
+      <Button fx:id="ThisAndFollowingButton" layoutX="53.0" layoutY="118.0" mnemonicParsing="false" onAction="#handle" text="This and following tasks" />
+      <Button fx:id="ThisButton" layoutX="233.0" layoutY="118.0" mnemonicParsing="false" onAction="#handle" text="This task" />
+      <Button fx:id="AllButton" layoutX="310.0" layoutY="118.0" mnemonicParsing="false" onAction="#handle" text="All Tasks" />
+      <Label fx:id="taskNameLabel" layoutX="38.0" layoutY="14.0" text="Task Name" />
+      <Label fx:id="currentDateLabel" layoutX="38.0" layoutY="47.0" text="Current Date" />
    </children>
 </Pane>

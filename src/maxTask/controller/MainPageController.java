@@ -26,6 +26,7 @@ import javafx.scene.shape.Rectangle;
 import maxTask.application.MaxTasks;
 import maxTask.model.Task;
 import maxTask.model.TaskView;
+import maxTask.model.TaskViewTask;
 import maxTask.util.ManageFrontend;
 
 /**
@@ -108,7 +109,12 @@ public class MainPageController {
 		GridPane pane=new GridPane();
 		pane.setHgap(10);
 		pane.setPadding(new Insets(10,10,10,10));
-		Label name = new Label(t.getName());
+		//get the task via t.getId()
+		TaskViewTask task = taskView.allTasks.get(t.getID());
+		
+		//Label name = new Label(t.getName());
+		Label name = new Label(task.name);
+		
 		Label prefferedTime = new Label(""+t.getPreferredTime());
 		Label spentTime = new Label(""+t.getSpentTime());
 		pane.add(name, 0, 0);

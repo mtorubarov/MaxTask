@@ -1,19 +1,11 @@
-when adding other dates, see if can add multiple ones.... give ability to click twice to override the prev...
+medium: when adding other dates, see if can add multiple ones.... give ability to click twice to override the prev...
 
-checklist mode 
+medium: checklist mode 
 
-edit selected task
+medium: edit selected task
 
-make repeat every week properly instead of what it does now
+medium: make repeat every week properly instead of what it does now
 
-When add, delete, edit task should have what selected?
+low: handle leap year
 
-handle leap year
-
-write asumptions for the input
-
-when end timer, make start timer not go to 0
-
-display the current date when edditing, adding tasks, etc. as well as current task
-
-make the text box for name in add task bigger
+medium: write asumptions for the input

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Task implements java.io.Serializable{
 	private int id;
-	private String name;
+	private String name;			//repetion not necessary
 	private int preferredTime;
 	private int spentTime;
 	

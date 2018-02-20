@@ -74,6 +74,7 @@ public class TaskView implements java.io.Serializable{
 	//figure out based on a number of parameters, all days that this event happens. Then add this event to each date
 	//remember , we go to <= day ends
 	public void addTask(String name, int preferredTime, int firstDay, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds){
+		//Following is just to get dates:
 		//ALREADY HAVE name, preferredTime
 		
 		//GET NEW ID FOR THE TASK
@@ -202,7 +203,7 @@ public class TaskView implements java.io.Serializable{
 		
 		//update all dates
 		for(int day:days){
-			Task newTask = new Task(name, preferredTime, id);
+			Task newTask = new Task("", preferredTime, id);
 			allDates[day].tasks.add(newTask);
 			dates[day]=1;
 		}
@@ -213,6 +214,193 @@ public class TaskView implements java.io.Serializable{
 		
 	}
 
+	//-----------------------------HELPER METHOD FOR EDIT and ADD -----------------------------------------
+	
+	public List<Integer> getDays(int firstDay, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds){
+		//FIGURE OUT ALL THE DAYS THAT THIS IS SUPPOSED TO HAPPEN IN
+		List<Integer> days = new ArrayList<>();
+		int currentYear=LocalDate.now().getYear();
+		
+		//ADD THE FIRST DAY
+		if(firstDay<0 && firstDay>366){
+			System.out.println("bad input: day number is out of whack");
+			return null;
+		}
+		days.add(firstDay);
+		
+		//FIGURE OUT DAY OF WEEKS
+		int originalDayOfWeeks = dayOfWeeks;//for later storage since we will change dayOfWeeks variable
+		if(dayOfWeeks!=0){			
+			List<Integer> additions = new ArrayList<>();
+			
+			if(dayOfWeeks/64==1){
+				//monday
+				additions.add(1);
+				dayOfWeeks=dayOfWeeks-64;
+				System.out.println("monday included!");
+			}
+			if(dayOfWeeks/32==1){
+				//tuesday
+				additions.add(2);
+				dayOfWeeks=dayOfWeeks-32;
+				System.out.println("tuesday included!");
+			}
+			if(dayOfWeeks/16==1){
+				//wednesday
+				additions.add(3);
+				dayOfWeeks=dayOfWeeks-16;
+				System.out.println("wednesday included!");
+			}
+			if(dayOfWeeks/8==1){
+				//thursday
+				additions.add(4);
+				dayOfWeeks=dayOfWeeks-8;
+				System.out.println("thursday included!");
+			}
+			if(dayOfWeeks/4==1){
+				//friday
+				additions.add(5);
+				dayOfWeeks=dayOfWeeks-4;
+				System.out.println("friday included!");
+			}
+			if(dayOfWeeks/2==1){
+				//saturday
+				additions.add(6);
+				dayOfWeeks=dayOfWeeks-2;
+				System.out.println("saturday included!");
+			}
+			if(dayOfWeeks/1==1){
+				//sunday
+				additions.add(7);
+				dayOfWeeks=dayOfWeeks-1;
+				System.out.println("sunday included!");
+			}
+			
+			
+			int day = firstDay+1;
+			while(day<=dayEnds){
+				LocalDate date = LocalDate.ofYearDay(currentYear, day);
+				DayOfWeek dateDayOfWeek = date.getDayOfWeek();
+				
+				if(additions.contains(dateDayOfWeek.getValue())){
+					days.add(day);
+				}
+				day++;
+			}
+		}
+		
+		//FIGURE OUT THE DAYS, WEEKS, MONTHS THAT REPEAT
+		if(numberDaysRepeats!=0){
+			int day = firstDay+numberDaysRepeats;
+			while(day<=dayEnds){
+				days.add(day);
+				day=day+numberDaysRepeats;
+			}
+		}
+		if(numberWeeksRepeats!=0){
+			int day = firstDay+numberWeeksRepeats*7;
+			while(day<=dayEnds){
+				days.add(day);
+				day=day+numberWeeksRepeats*7;
+			}
+		}
+		if(numberMonthsRepeats!=0){
+			int numberRepeat=0;
+			int day = firstDay+1;
+			int wantMonthDate = LocalDate.ofYearDay(currentYear, firstDay).getDayOfMonth();
+			while(day<=dayEnds){
+				int currentMonthDate=LocalDate.ofYearDay(currentYear, day).getDayOfMonth();
+				if(wantMonthDate==currentMonthDate){
+					numberRepeat++;
+					if(numberRepeat==numberMonthsRepeats){
+						days.add(day);
+						numberRepeat=0;
+					}
+				}
+				
+				day++;
+			} 
+		}
+		
+		for(int i =0 ; i<otherDays.length;i++){
+			System.out.println("other day "+i+" is: "+otherDays[i]);
+			days.add(otherDays[i]);
+		}
+		return days;
+	}
+	
+	//------------------------------EDITING TASK METHOD------------------------------------------------
+	public void editTaskFromAll(TaskViewTask task, String name, int preferredTime, int id, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds){
+		List<Integer> days = getDays(0, dayOfWeeks,numberDaysRepeats, numberWeeksRepeats, numberMonthsRepeats, otherDays, dayEnds);
+		editTask(task, days, name, preferredTime, id, dayOfWeeks, numberDaysRepeats, numberWeeksRepeats,  numberMonthsRepeats, otherDays, dayEnds);
+	}
+	
+	public void editTaskFromFollowing(TaskViewTask task, int currentDate, String name, int preferredTime, int id, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds){
+		List<Integer> days = getDays(currentDate, dayOfWeeks,numberDaysRepeats, numberWeeksRepeats, numberMonthsRepeats, otherDays, dayEnds);
+		editTask(task, days, name, preferredTime, id, dayOfWeeks, numberDaysRepeats, numberWeeksRepeats,  numberMonthsRepeats, otherDays, dayEnds);
+	}
+	
+	public void editTaskFromThis(TaskViewTask task, int currentDate, String name, int preferredTime, int id, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds){
+		//List<Integer> days = getDays(currentDate, dayOfWeeks,numberDaysRepeats, numberWeeksRepeats, numberMonthsRepeats, otherDays, dayEnds);
+		List<Integer> days = new ArrayList<Integer>();
+		days.add(currentDate);
+		editTask(task, days, name, preferredTime, id, dayOfWeeks, numberDaysRepeats, numberWeeksRepeats,  numberMonthsRepeats, otherDays, dayEnds);
+	
+		
+	}
+	
+
+	//like add task but makes sure that if already exists, we don't change spent time
+	public void editTask(TaskViewTask task, List<Integer> days, String name, int preferredTime, int id, int dayOfWeeks, int numberDaysRepeats, int numberWeeksRepeats,  int numberMonthsRepeats, int[] otherDays, int dayEnds ){
+		if(id!=task.id){
+			System.err.println("SOMETHING WRONG. ID WRONG!!!!");
+			System.out.println("We have something wrong!! id should not be different");
+			return;
+		}
+		
+		System.out.println("We are doing second add with dayOfWeeks="+dayOfWeeks);
+		int[] dates = task.dates;//new int[366];			//TODO: but might be different!!! THINK AABOUT THIS
+		
+		//update all dates
+		for(int day:days){																		//TODO: this for loop
+			//Task newTask = new Task("", preferredTime, id);					
+			//if the task already exists, change preferredTime and other time
+			/*
+			if(exists){
+				
+			}else{
+				Task newTask = new Task("", preferredTime, id);
+				allDates[day].tasks.add(newTask);
+			}
+			*/
+			
+			
+			dates[day]=1;
+		}
+		
+		//update all tasks
+		task.name = name;
+		task.dates=dates;	//TODO; this should be changed so that 
+		//task.id = id;								//should be same honestly.
+		task.dayOfWeeks=dayOfWeeks;
+		task.numberDaysRepeats = numberDaysRepeats;
+		task.numberWeeksRepeats=numberWeeksRepeats;
+		task.numberMonthsRepeats= numberMonthsRepeats;
+		task.otherDays=otherDays;
+		task.dayEnds=dayEnds;
+		
+		
+		
+		
+		//so add but make sure that if already exists in that date, change everything but spent time
+		
+		//for each date, check if already exist, if not, make new one
+		
+		
+		//make sure to change the preferred time, etc of the object
+		
+	}
+	
 	//------------------------------DELETING TASKS METHODS------------------------------------------------
 
 	//deleted task with a given id
@@ -282,25 +470,30 @@ public class TaskView implements java.io.Serializable{
 		
 	}
 
+	//------------------------------HELPER METHODS--------------------------------------------------------
 	
-	//------------------------------DELETING TASKS METHODS------------------------------------------------
+	//Get specific task from specific day
 	public Task getTaskFromDate(int date, int id){
+		
 		List<Task> tasks = allDates[date].tasks;
 		for (Task t : tasks){
 			if(t.getID()==id){
+
+				System.out.println("Found something at date: "+date);
 				return t;
 			}
 		}
+		
+		//if don't find task with specific id, return null
 		return null;
 	}
-	
-	//------------------------------HELPER METHODS--------------------------------------------------------
-	
-	//get the tasks for a specific day
+		
+	//get all the Tasks for a specific day
 	public List<Task> getTasks(int day){
 		return allDates[day].tasks;
 	}
 		
+	//prints allTasks (TaskViewTasks)
 	public void printAllTasks(){
 		Set<Integer> keys = allTasks.keySet();
         for(int key: keys){

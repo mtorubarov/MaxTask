@@ -1,17 +1,24 @@
 package maxTask.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import maxTask.application.MaxTasks;
 import maxTask.model.TaskView;
 import maxTask.util.ManageFrontend;
 
 public class deleteTaskController {
+	//to know what we are looking at:
+	@FXML Label currentDateLabel;
+	@FXML Label taskNameLabel;
+	
+	
 	@FXML Button cancelButton;
 	@FXML Button ThisButton;
 	@FXML Button ThisAndFollowingButton;
@@ -27,7 +34,21 @@ public class deleteTaskController {
 	 * @throws ClassNotFoundException 
 	 */
 	@FXML private void initialize() throws ClassNotFoundException, IOException{
+		
 		taskView = TaskView.FetchTasks(taskView);
+		
+		
+		LocalDate todayDate = LocalDate.now();
+		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate.getYear(), MaxTasks.currentDate);
+		currentDateLabel.setText(""+newCurrentDate);
+		
+		
+		String name = taskView.allTasks.get(MaxTasks.currentSelected).name;
+		
+		taskNameLabel.setText(name);
+		
+		
+		
 	}
 	
 	//This method will handle all the buttons

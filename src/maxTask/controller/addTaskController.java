@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
@@ -26,6 +27,9 @@ import maxTask.util.ManageFrontend;
 
 //TODO: other days doesnt yet work
 public class addTaskController {
+	//to know what we are looking at:
+	@FXML Label currentDateLabel;
+	
 	@FXML Button addTaskButton;
 	@FXML Button cancelButton;
 	
@@ -59,7 +63,9 @@ public class addTaskController {
 	 * @throws ClassNotFoundException 
 	 */
 	@FXML private void initialize() throws ClassNotFoundException, IOException{
-		
+		LocalDate todayDate = LocalDate.now();
+		LocalDate newCurrentDate=LocalDate.ofYearDay(todayDate.getYear(), MaxTasks.currentDate);
+		currentDateLabel.setText(""+newCurrentDate);
 		
 		//set the cells of the other dates date picker to be what is in the otherDates list
 		final Callback<DatePicker, DateCell> dayCellFactory = new Callback<DatePicker, DateCell>() {
@@ -129,6 +135,98 @@ public class addTaskController {
 		taskView = TaskView.FetchTasks(taskView);
 	}
 	
+	String getName(){
+		return nameTextField.getText();
+	}
+	
+	int getPreferredTime(){
+		int preferredTime=0;
+		if(!timeTextField.getText().equals("")){
+			preferredTime =Integer.parseInt(timeTextField.getText());		//Assume that integer
+		}
+		return preferredTime;
+	}
+	
+	int getDaysOfWeek(){
+		int dayOfWeeks=0;
+		if(mondayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 6);
+		}
+		if(tuesdayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 5);
+		}
+		if(wednesdayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 4);
+		}
+		if(thursdayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 3);
+		}
+		if(fridayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 2);
+		}
+		if(saturdayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 1);
+		}
+		if(sundayCheck.isSelected()){
+			dayOfWeeks=dayOfWeeks+(int)Math.pow(2, 0);
+		}
+		return dayOfWeeks;
+	}
+	
+	int getNumberDaysRepeats(){
+		int numberDaysRepeats = 0;
+		if(!repeatDayTextField.getText().equals("")){
+			numberDaysRepeats=Integer.parseInt(repeatDayTextField.getText());
+		}
+		return numberDaysRepeats;
+	}
+	
+	int getNumberWeeksRepeats(){
+		int numberWeeksRepeats = 0;
+		if(!repeatWeekTextField.getText().equals("")){
+			numberWeeksRepeats=Integer.parseInt(repeatWeekTextField.getText());
+		}
+		return numberWeeksRepeats;
+	}
+	
+	int getNumberMonthsRepeats(){
+		int numberMonthsRepeats = 0;
+		if(!repeatMonthTextField.getText().equals("")){
+			numberMonthsRepeats=Integer.parseInt(repeatMonthTextField.getText());
+		}
+		return numberMonthsRepeats;
+	}
+	
+	
+	int[] getOtherDays(){
+		if(otherDates == null){
+			return null;
+		}
+		int[] otherDays= new int[otherDates.size()];
+		int index = 0;
+		for(LocalDate d: otherDates){
+			if(otherDays==null){
+				System.out.println("otherDays is null!!");
+			}
+			if(d!=null){
+				System.out.println("d");
+				otherDays[index] = d.getDayOfYear();
+				index++;
+			}
+		}
+		return otherDays;
+	}
+	
+	int getDayEnds(){
+		LocalDate dayEndsLocalDate=dayEndsDatePicker.getValue();
+		int dayEnds;
+		if(dayEndsLocalDate!=null){
+			dayEnds=dayEndsLocalDate.getDayOfYear();
+		}else{
+			dayEnds=365;
+		}
+		return dayEnds;
+	}
 	
 	//This method will handle the adding the task or cancelling
 	public void handle(ActionEvent e) throws Exception{
@@ -146,6 +244,7 @@ public class addTaskController {
 			buttonClicked=true;				//hide the other days date picker to not produce any errors
 			otherDaysDatePicker.hide();
 			
+			/*
 			String name = nameTextField.getText();
 			int preferredTime=0;
 			if(!timeTextField.getText().equals("")){
@@ -211,6 +310,18 @@ public class addTaskController {
 			}else{
 				dayEnds=365;
 			}
+			*/
+			
+			String name = getName();
+			int preferredTime = getPreferredTime();
+			int firstDay = MaxTasks.currentDate;
+			int dayOfWeeks = getDaysOfWeek();
+			int numberDaysRepeats = getNumberDaysRepeats();
+			int numberWeeksRepeats = getNumberWeeksRepeats();
+			int numberMonthsRepeats = getNumberMonthsRepeats();
+			int[] otherDays = getOtherDays();
+			int dayEnds = getDayEnds();
+			
 			taskView.addTask(name, preferredTime,firstDay, dayOfWeeks, numberDaysRepeats, numberWeeksRepeats, numberMonthsRepeats, otherDays, dayEnds);
 			TaskView.SerializeTask(taskView);
 
